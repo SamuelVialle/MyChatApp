@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".F31_FindFriendFragment">
+    tools:context=".f3_find_friend.F31_FindFriendFragment">
 
     <!-- Include de la custom progressbar    -->
     <include

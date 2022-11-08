@@ -1,4 +1,4 @@
-package com.samuelvialle.mychatapp.a2_profil;
+package com.samuelvialle.mychatapp.a0_splash_screen.a2_profil;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
