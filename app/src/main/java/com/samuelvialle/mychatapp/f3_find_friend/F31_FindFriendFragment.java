@@ -1,9 +1,18 @@
 package com.samuelvialle.mychatapp.f3_find_friend;
 
-import static com.samuelvialle.mychatapp.a0_common.Constants.*;
+import static com.samuelvialle.mychatapp.a0_common.Constants.CURRENT_USER;
+import static com.samuelvialle.mychatapp.a0_common.Constants.FIRESTORE_INSTANCE;
+import static com.samuelvialle.mychatapp.a0_common.Constants.FRIEND_REQUESTS;
+import static com.samuelvialle.mychatapp.a0_common.Constants.NAME;
+import static com.samuelvialle.mychatapp.a0_common.Constants.USERS;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,21 +20,24 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.Query;
 import com.samuelvialle.mychatapp.R;
+import com.samuelvialle.mychatapp.a0_common.MyOnCLickListener;
 import com.samuelvialle.mychatapp.a1_login.A12_SignUpActivity;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class F31_FindFriendFragment extends Fragment {
 
@@ -129,14 +141,54 @@ public class F31_FindFriendFragment extends Fragment {
         rvFindFriends.setAdapter(findFriendAdapter);
         findFriendAdapter.startListening();
 
+        // Appel du constructuer de gestion de l'interface
+        findFriendAdapter.exploitMyOnCLick(new MyOnCLickListener() {
+            @Override
+            public void onClick(DocumentSnapshot documentSnapshot, int position, String state) {
+
+                String sendFriendRequestTo = documentSnapshot.getId();
+                assert CURRENT_USER != null;
+                String userId = CURRENT_USER.getUid();
+
+                Map<String, Object> addFriendRequest = new HashMap<>();
+                FieldValue data;
+                if (state.equals("send")) {
+                    data = FieldValue.arrayUnion(userId);
+                } else {
+                    data = FieldValue.arrayRemove(userId);
+                }
+                addFriendRequest.put("sendFrom", data);
+
+                DocumentReference friendRequest = friendRequestCollectionReference.document(sendFriendRequestTo);
+                friendRequest.get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document.exists()) {
+                                        // Si le document existe on fait un update
+                                        friendRequest.update(addFriendRequest);
+                                    } else {
+                                        // Sinon on le crée
+                                        friendRequest.set(addFriendRequest);
+                                    }
+                                }
+                            }
+                        });
 
 
+//                friendRequest.update(addFriendRequest);
+                Toast.makeText(getContext(), "From F31" + state, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Gestion de l'affichage du message si la base n'est pas vide
         tvEmptyFriendList.setVisibility(View.GONE);
         // Gestion de l'affichage de la progressBar
         progressBar.setVisibility(View.GONE);
     }
+
 
     @Override
     public void onStart() {

@@ -34,6 +34,7 @@ public interface Constants {
     //-------------- end Users
 
     //-------------- Collection Friend request
+    String SEND_FROM = "sendFrom";
     String FRIEND_REQUESTS = "FriendRequests";
 
     String REQUEST_TYPE = "request_type";

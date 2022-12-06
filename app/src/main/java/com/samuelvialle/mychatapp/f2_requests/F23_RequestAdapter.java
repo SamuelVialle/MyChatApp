@@ -1,5 +1,4 @@
-package com.samuelvialle.mychatapp.f3_find_friend;
-
+package com.samuelvialle.mychatapp.f2_requests;
 
 import android.content.Context;
 import android.util.Log;
@@ -22,26 +21,21 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.samuelvialle.mychatapp.R;
 import com.samuelvialle.mychatapp.a0_common.MyOnCLickListener;
+import com.samuelvialle.mychatapp.f3_find_friend.F32_FindFriendModel;
 
-public class F33_FindFriendAdapter extends FirestoreRecyclerAdapter<F32_FindFriendModel, F33_FindFriendAdapter.FindFriendViewHolder> {
-    /**
-     * Variables globales
-     **/
-    private static final String TAG = "FindFriendAdapter";
-
+public class F23_RequestAdapter extends FirestoreRecyclerAdapter<F32_FindFriendModel, F23_RequestAdapter.RequestViewHolder> {
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
      * FirestoreRecyclerOptions} for configuration options.
      *
      * @param options
      */
-    public F33_FindFriendAdapter(@NonNull FirestoreRecyclerOptions<F32_FindFriendModel> options) {
+    public F23_RequestAdapter(@NonNull FirestoreRecyclerOptions<F32_FindFriendModel> options) {
         super(options);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull FindFriendViewHolder holder, int position, @NonNull F32_FindFriendModel model) {
-        /** 6 Comme la view est associée à l'adapter, il est maintenant possible d'accéder aux objets via le holder **/
+    protected void onBindViewHolder(@NonNull F23_RequestAdapter.RequestViewHolder holder, int position, @NonNull F32_FindFriendModel model) {
         String fullName = model.getName();
         String userAvatar = model.getAvatar();
 
@@ -66,7 +60,7 @@ public class F33_FindFriendAdapter extends FirestoreRecyclerAdapter<F32_FindFrie
 
     @NonNull
     @Override
-    public FindFriendViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public F23_RequestAdapter.RequestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         /** 5 Dans cette méthode on va inflate le layout item_find_friend, de plus on encapsuler cet inflate dans une view pour
          //         * pouvoir l'utiliser par la suite **/
         View view = LayoutInflater
@@ -74,49 +68,29 @@ public class F33_FindFriendAdapter extends FirestoreRecyclerAdapter<F32_FindFrie
                 .inflate(R.layout.item_f33_find_friends, parent, false);
 
         // 5.1 On va utiliser le viewHolder de la classe pour afficher la vue créée ci-dessus
-        return new FindFriendViewHolder(view);
+        return new F23_RequestAdapter.RequestViewHolder(view);
     }
 
     @Override
     public void onError(@NonNull FirebaseFirestoreException e) {
-        Log.e(TAG, "Error Firebase : " + e.getMessage());
+        Log.e("TAG", "Error Firebase : " + e.getMessage());
     }
 
-    public class FindFriendViewHolder extends RecyclerView.ViewHolder {
+    public class RequestViewHolder extends RecyclerView.ViewHolder {
         // Variables lien design code
         private final ImageView ivProfile;
         private final TextView tvFullName;
-        private final Button btnSendRequest, btnCancelRequest;
+        private final Button btnAcceptRequest;
         private final ProgressBar pbRequest;
 
-        public FindFriendViewHolder(@NonNull View itemView) {
+        public RequestViewHolder(@NonNull View itemView) {
             super(itemView);
             // Initialiastion des vues
             ivProfile = itemView.findViewById(R.id.ivProfile);
             tvFullName = itemView.findViewById(R.id.tvFullName);
-            btnSendRequest = itemView.findViewById(R.id.btnAcceptRequest);
-            btnCancelRequest = itemView.findViewById(R.id.btnCancelRequest);
+            btnAcceptRequest = itemView.findViewById(R.id.btnAcceptRequest);
             pbRequest = itemView.findViewById(R.id.pbRequest);
 
-            btnSendRequest.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String state = "send";
-                    myOnClickListener.onClick(getSnapshots().getSnapshot(getBindingAdapterPosition()), getBindingAdapterPosition(), state);
-                    btnSendRequest.setVisibility(View.GONE);
-                    btnCancelRequest.setVisibility(View.VISIBLE);
-                }
-            });
-
-            btnCancelRequest.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String state = "cancel";
-                    myOnClickListener.onClick(getSnapshots().getSnapshot(getBindingAdapterPosition()), getBindingAdapterPosition(), state);
-                    btnSendRequest.setVisibility(View.VISIBLE);
-                    btnCancelRequest.setVisibility(View.GONE);
-                }
-            });
         }
     }
 
@@ -126,4 +100,3 @@ public class F33_FindFriendAdapter extends FirestoreRecyclerAdapter<F32_FindFrie
         this.myOnClickListener = myOnClickListener;
     }
 }
-

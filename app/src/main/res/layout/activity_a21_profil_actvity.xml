@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="32dp"
     android:paddingRight="32dp"
-    tools:context=".a0_splash_screen.a2_profil.A21_ProfilActvity">
+    tools:context=".a2_profil.A21_ProfilActvity">
 
     <!-- A ajouter après  -->
     <include

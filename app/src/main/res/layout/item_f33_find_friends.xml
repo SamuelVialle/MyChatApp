@@ -38,7 +38,7 @@
                 tools:text="User Name" />
 
             <Button
-                android:id="@+id/btnSendRequest"
+                android:id="@+id/btnAcceptRequest"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/send_friend_request" />

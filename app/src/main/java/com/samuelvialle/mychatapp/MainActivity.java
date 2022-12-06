@@ -14,7 +14,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
-import com.samuelvialle.mychatapp.a0_splash_screen.a2_profil.A21_ProfilActvity;
+import com.samuelvialle.mychatapp.a2_profil.A21_ProfilActvity;
+import com.samuelvialle.mychatapp.f2_requests.F21_RequestFragment;
 import com.samuelvialle.mychatapp.f3_find_friend.F31_FindFriendFragment;
 
 import org.jetbrains.annotations.NotNull;

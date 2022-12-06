@@ -1,11 +1,9 @@
-package com.samuelvialle.mychatapp.a0_splash_screen.a2_profil;
+package com.samuelvialle.mychatapp.a2_profil;
 
-import static com.samuelvialle.mychatapp.a0_common.Constants.*;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
+import static com.samuelvialle.mychatapp.a0_common.Constants.AVATAR;
+import static com.samuelvialle.mychatapp.a0_common.Constants.EMAIL;
+import static com.samuelvialle.mychatapp.a0_common.Constants.NAME;
+import static com.samuelvialle.mychatapp.a0_common.Constants.USERS;
 
 import android.Manifest;
 import android.content.Intent;
@@ -22,6 +20,11 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -67,10 +70,14 @@ public class A21_ProfilActvity extends AppCompatActivity {
      * 1.3 Variables globales pour les URI
      **/
     private Uri localFileUri, serverFileUri;
-    /** 1.3.1 Var du UserId **/
+    /**
+     * 1.3.1 Var du UserId
+     **/
     private String userID;
 
-    /** 13 Définitions des variables pour tester avant l'envoi de l'update **/
+    /**
+     * 13 Définitions des variables pour tester avant l'envoi de l'update
+     **/
     String nameToUpdate, emailToUpdate;
 
     /**
@@ -442,8 +449,10 @@ public class A21_ProfilActvity extends AppCompatActivity {
     public void btnSignOut(View v) {
         firebaseAuth.signOut();
         // On renvoie l'utilisateur vers LoginActivity
-        startActivity(new Intent(A21_ProfilActvity.this, A11_LoginActivity.class));
+        Intent intent = new Intent(A21_ProfilActvity.this, A11_LoginActivity.class);
         // On ferme l'activité courante
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
         finish();
     }
 
