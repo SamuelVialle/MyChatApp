@@ -27,6 +27,7 @@ public interface Constants {
     //-------------- Collection Users
     String USERS = "Users";
 
+    String ID="id";
     String NAME = "name";
     String EMAIL = "email";
     String ONLINE = "online";

@@ -1,8 +1,10 @@
 package com.samuelvialle.mychatapp.f3_find_friend;
 
+import static com.google.firebase.firestore.FieldPath.documentId;
 import static com.samuelvialle.mychatapp.a0_common.Constants.CURRENT_USER;
 import static com.samuelvialle.mychatapp.a0_common.Constants.FIRESTORE_INSTANCE;
 import static com.samuelvialle.mychatapp.a0_common.Constants.FRIEND_REQUESTS;
+import static com.samuelvialle.mychatapp.a0_common.Constants.ID;
 import static com.samuelvialle.mychatapp.a0_common.Constants.NAME;
 import static com.samuelvialle.mychatapp.a0_common.Constants.USERS;
 
@@ -27,6 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.Query;
 import com.samuelvialle.mychatapp.R;
@@ -129,6 +132,7 @@ public class F31_FindFriendFragment extends Fragment {
     private void getUsers() {
         // Query de tout les utilisateurs pour les afficher dans le recyclerView
         queryUsersCollection = usersCollectionReference
+                .whereNotEqualTo(NAME, currentUser.getDisplayName())
                 .orderBy(NAME, Query.Direction.ASCENDING);
 
 

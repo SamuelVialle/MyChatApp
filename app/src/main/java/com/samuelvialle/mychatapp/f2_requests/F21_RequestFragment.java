@@ -19,11 +19,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.Query;
 import com.samuelvialle.mychatapp.R;
 import com.samuelvialle.mychatapp.a1_login.A12_SignUpActivity;
@@ -73,11 +75,17 @@ public class F21_RequestFragment extends Fragment {
         friendRequestCollectionReference = FIRESTORE_INSTANCE.collection(FRIEND_REQUESTS);
     }
 
+    private void initUserID(){
+        Intent intent = getActivity().getIntent();
+        currentUserId = intent.getStringExtra("bundleCurrentUserId");
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_f21_request, container, false);
         initUI();
+        initUserID();
         initFB();
         return view;
     }
@@ -121,13 +129,25 @@ public class F21_RequestFragment extends Fragment {
         String[] items = requestFrom.get(0).split(",");
         for (String friendWhoRequest : items) {
             Log.i("TAG", "getFriendsRequestInformation: " + friendWhoRequest);
+//            Query queryRequestFrom = usersCollectionReference
+//                    .whereEqualTo(FieldPath.documentId(), friendWhoRequest);
+//            FirestoreRecyclerOptions<F32_FindFriendModel> requestsFriendsModelRecyclerOptions =
+//                    new FirestoreRecyclerOptions.Builder<F32_FindFriendModel>()
+//                            .setQuery(queryRequestFrom, F32_FindFriendModel.class)
+//                            .build();
+//
+//            requestAdapter = new F23_RequestAdapter(requestsFriendsModelRecyclerOptions);
+//            rvRequests.setAdapter(requestAdapter);
+//            requestAdapter.startListening();
         }
 //        queryFriendRequestsCollection = friendRequestCollectionReference
 //                .orderBy();
 //
+//        Query queryRequestFrom = usersCollectionReference
+//                .whereEqualTo(FieldPath.documentId(), friendWhoRequest);
 //        FirestoreRecyclerOptions<F32_FindFriendModel> requestsFriendsModelRecyclerOptions =
 //                new FirestoreRecyclerOptions.Builder<F32_FindFriendModel>()
-//                        .setQuery(queryFriendRequestsCollection, F32_FindFriendModel.class)
+//                        .setQuery(queryRequestFrom, F32_FindFriendModel.class)
 //                        .build();
 //
 //        requestAdapter = new F23_RequestAdapter(requestsFriendsModelRecyclerOptions);

@@ -27,6 +27,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
@@ -34,6 +35,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.samuelvialle.mychatapp.R;
@@ -97,6 +100,9 @@ public class A12_SignUpActivity extends AppCompatActivity {
         //4.1.1 Si les cases sont vides
         if (name.equals("")) {
             etName.setError(getString(R.string.enter_name));
+            //TODO ajouter une méthode pour chercher dnas un registre de nom + faire l'enregistrement dans une table true
+//        } else if (!name.isEmpty()){
+//            checkUserName(name);
         } else if (email.equals("")) {
             etEmail.setError(getString(R.string.enter_email));
         } else if (password.equals("")) {
@@ -364,6 +370,19 @@ public class A12_SignUpActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    // TODO Finir la méthode
+//    private void checkUserName(String nameToCheck){
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        db.collection("UserName").whereEqualTo("names", nameToCheck).get()
+//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                        Toast.makeText(A12_SignUpActivity.this, "Username is already taken", Toast.LENGTH_SHORT).show();
+//                        Log.i(TAG, "onSuccess: name exist" );
+//                    }
+//                });
+//    }
 
 
     /**

@@ -73,7 +73,10 @@ public class A11_LoginActivity extends AppCompatActivity {
                                 progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
                                     //4.4 Ajout du lien vers mainActivity si l'utilisateur est bien connecté
-                                    startActivity(new Intent(A11_LoginActivity.this, MainActivity.class));
+                                    Intent intent = new Intent(A11_LoginActivity.this, MainActivity.class);
+                                    String currentUserId = CURRENT_USER.getUid();
+                                    intent.putExtra("bundleCurrentUserId", currentUserId);
+                                    startActivity(intent);
                                     //4.5 Utilisation de finish() pour fermer l'activité présente
                                     finish();
                                 } else {
